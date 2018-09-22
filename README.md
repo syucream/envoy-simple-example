@@ -14,3 +14,35 @@ An Envoy Proxy example with simple usage for xDS API
   - An origin server.
 - endpoint1
   - An origin server.
+
+## How to try
+
+- At first, start containers.
+
+```
+$ docker-compose up
+```
+
+- Then you can request to endpoints via Envoy Proxy with load balancing.
+
+```
+$ curl http://localhost:10000/whoami.html
+<html>
+  <head>
+    <title>I'm endpoint1</title>
+  </head>
+  <body>
+    <p>endpoint1 works</p>
+  </body>
+</html>
+$ curl http://localhost:10000/whoami.html
+<html>
+  <head>
+    <title>I'm endpoint0</title>
+  </head>
+  <body>
+    <p>endpoint0 works</p>
+  </body>
+</html>
+```
+

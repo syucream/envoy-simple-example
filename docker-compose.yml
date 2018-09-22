@@ -21,7 +21,7 @@ services:
     container_name: httpxds
     image: nginx
     volumes:
-      - ./etc/httpxds/eds.json:/usr/share/nginx/json/eds.json:ro
+      - ./etc/httpxds/eds.json:/usr/share/nginx/json/eds.json
       - ./etc/httpxds/xds.conf:/etc/nginx/conf.d/xds.conf:ro
     networks:
       - app_net

@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+  envoy:
+    container_name: envoy
+    image: envoyproxy/envoy
+    volumes:
+      - ./etc/envoy/envoy.yaml:/etc/envoy/envoy.yaml:ro
+    links:
+      - httpxds
+      - endpoint0
+      - endpoint1
+    ports:
+      - "10000:10000"
+      - "9901:9901"
+    networks:
+      - app_net
+    command: "/usr/local/bin/envoy --v2-config-only --service-cluster cluster0 --service-node envoy0 -c /etc/envoy/envoy.yaml"
+
+  httpxds:
+    container_name: httpxds
+    image: nginx
+    volumes:
+      - ./etc/httpxds/eds.json:/usr/share/nginx/json/eds.json:ro
+      - ./etc/httpxds/xds.conf:/etc/nginx/conf.d/xds.conf:ro
+    networks:
+      - app_net
+
+  endpoint0:
+    container_name: endpoint0
+    image: nginx
+    volumes:
+      - ./etc/endpoint0/whoami.html:/usr/share/nginx/html/whoami.html:ro
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.10
+
+  endpoint1:
+    container_name: endpoint1
+    image: nginx
+    volumes:
+      - ./etc/endpoint1/whoami.html:/usr/share/nginx/html/whoami.html:ro
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.11
+
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      -
+        subnet: 172.16.238.0/24

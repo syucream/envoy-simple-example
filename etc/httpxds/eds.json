@@ -15,7 +15,13 @@
                     "port_value": 80
                   }
                 }
-              },
+              }
+            }
+          ]
+        },
+        {
+          "lb_endpoints": [
+            {
               "endpoint": {
                 "address": {
                   "socket_address": {

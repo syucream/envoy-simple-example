@@ -15,7 +15,8 @@ services:
       - "9901:9901"
     networks:
       - app_net
-    command: "/usr/local/bin/envoy --v2-config-only --service-cluster cluster0 --service-node envoy0 -c /etc/envoy/envoy.yaml"
+    command: |
+      /usr/local/bin/envoy --service-cluster cluster0 --service-node envoy0 -c /etc/envoy/envoy.yaml
 
   httpxds:
     container_name: httpxds
